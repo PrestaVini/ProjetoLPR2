@@ -7,7 +7,9 @@ package mavi;
 public class Mavi {
 
     public static void main(String[] args) {
+        TelaPrincipal telaPrincipal = new TelaPrincipal();
         
+        telaPrincipal.setVisible(true);
     }
     
 }
