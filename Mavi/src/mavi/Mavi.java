@@ -4,15 +4,26 @@
  */
 package mavi;
 
+import mavi.produtos.GerenciarProdutos;
+import mavi.financeiro.Saldo;
+import mavi.usuarios.GerenciarUsuarios;
+import mavi.telas.TelaPrincipal;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Mavi {
-
+    
     public static void main(String[] args) {
-        TelaPrincipal telaPrincipal = new TelaPrincipal();
+        GerenciarProdutos gerenciador = new GerenciarProdutos();
+        gerenciador.iniciarProdutos();
+        Saldo saldo = new Saldo();
+        saldo.inicializarSaldo();
+        GerenciarUsuarios usuarios = new GerenciarUsuarios();
+        usuarios.IniciarBancoUsuarios();
+        TelaPrincipal telaPrincipal = new TelaPrincipal(gerenciador, saldo, usuarios);
         
         telaPrincipal.setVisible(true);
     }
