@@ -1,7 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
+
+
 package mavi.produtos;
 
 public class Produto {
@@ -10,11 +9,11 @@ public class Produto {
     private String unidadeDeMedida;
     private String nome;
     private double preco;
-    
+
     public int getId() {
         return this.id;
     }
-    
+
     public void setId(int id) {
         if(id >= 0) {
             this.id = id;
@@ -22,7 +21,7 @@ public class Produto {
             System.out.println("Erro! O id deve ser igual ou maior que zero");
         }
     }
-    
+
     public float getQuantidadeNoEstoque() {
         return quantidadeNoEstoque;
     }
@@ -46,13 +45,13 @@ public class Produto {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     public double getPreco() {
         return this.preco;
     }
-    
+
     public void setPreco(double preco) {
         this.preco = preco;
     }
-    
+
 }

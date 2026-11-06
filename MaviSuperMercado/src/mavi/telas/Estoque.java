@@ -1,18 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
+
+
 package mavi.telas;
 
 import mavi.produtos.GerenciarProdutos;
 import mavi.produtos.Produto;
 
-/**
- *
- * @author Vinicius
- */
+
 public class Estoque extends javax.swing.JPanel {
-    
+
     GerenciarProdutos gerenciador;
 
     public Estoque(GerenciarProdutos gerenciador) {
@@ -21,6 +17,7 @@ public class Estoque extends javax.swing.JPanel {
         configurarLayoutResponsivo();
         carregarTabelaEstoque();
         jTableEstoque.getTableHeader().setReorderingAllowed(false);
+        EstiloMavi.aplicar(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -121,7 +118,7 @@ public class Estoque extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void configurarLayoutResponsivo() {
-        // Os componentes criados pelo NetBeans sao reutilizados, sem recria-los.
+
         removeAll();
         setLayout(new java.awt.BorderLayout(16, 12));
         setBackground(java.awt.Color.WHITE);
@@ -149,7 +146,7 @@ public class Estoque extends javax.swing.JPanel {
         b.insets = new java.awt.Insets(0, 0, 0, 0);
         areaBusca.add(jTextFieldAreaDeBusca, b);
 
-        // Preenche o espaco restante sem empurrar a busca para o centro.
+
         b.gridy = 3;
         b.weighty = 1;
         b.fill = java.awt.GridBagConstraints.BOTH;
@@ -167,7 +164,7 @@ public class Estoque extends javax.swing.JPanel {
         areaSituacao.add(jLabelTituloSituacaoDeEstoque, java.awt.BorderLayout.NORTH);
         areaSituacao.add(jScrollPaneEstoque, java.awt.BorderLayout.CENTER);
 
-        // Cada coluna recebe metade da largura disponivel.
+
         javax.swing.JPanel colunas = new javax.swing.JPanel(new java.awt.GridBagLayout());
         colunas.setOpaque(false);
         java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
@@ -194,21 +191,21 @@ public class Estoque extends javax.swing.JPanel {
     private javax.swing.JTable jTableEstoque;
     private javax.swing.JTextField jTextFieldAreaDeBusca;
     // End of variables declaration//GEN-END:variables
-    
+
     private void carregarTabelaEstoque() {
         String[] colunas = {"ID", "Nome", "Quantidade", "Medida", "Preco de venda unitária"};
-        
+
         Produto[] produtosNoEstoque = gerenciador.getListaProdutos();
-        
+
         double somaEstoque = 0;
-        
+
         javax.swing.table.DefaultTableModel modeloEstoque = new javax.swing.table.DefaultTableModel(colunas, 0) {
             @Override
             public boolean isCellEditable(int linha, int coluna) {
                 return false;
             }
         };
-        
+
         for(int i = 0; i < produtosNoEstoque.length; i++) {
             if(produtosNoEstoque[i] != null) {
                 Object[] linha = {
@@ -218,15 +215,15 @@ public class Estoque extends javax.swing.JPanel {
                     produtosNoEstoque[i].getUnidadeDeMedida(),
                     String.format("R$ %.2f", produtosNoEstoque[i].getPreco())
                 };
-                
+
                 modeloEstoque.addRow(linha);
-                
+
                 somaEstoque = somaEstoque + (produtosNoEstoque[i].getQuantidadeNoEstoque() * produtosNoEstoque[i].getPreco());
             } else {
                 break;
             }
         }
-        
+
         jTableEstoque.setModel(modeloEstoque);
         jLabelTotalEmEstoque.setText(String.format("Total em estoque: R$ %.2f", somaEstoque));
     }

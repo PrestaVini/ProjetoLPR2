@@ -1,28 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
+
+
 package mavi.telas;
 
 import javax.swing.JOptionPane;
 import mavi.produtos.GerenciarProdutos;
 import mavi.financeiro.Saldo;
 import mavi.usuarios.GerenciarUsuarios;
+import mavi.relatorios.Data;
+import mavi.relatorios.SaldoDiario;
 
 public class TelaPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaPrincipal.class.getName());
 
     private GerenciarProdutos gerenciador;
     private Saldo saldo;
     private GerenciarUsuarios usuario;
     private boolean verificadorLogin = false;
+    Data dataAtual;
+    SaldoDiario saldoDiario;
 
-    public TelaPrincipal(GerenciarProdutos gerenciador, Saldo saldo, GerenciarUsuarios usuario) {
+    public TelaPrincipal(GerenciarProdutos gerenciador, Saldo saldo, GerenciarUsuarios usuario, Data dataAtual, SaldoDiario saldoDiario) {
         initComponents();
         this.gerenciador = gerenciador;
         this.saldo = saldo;
         this.usuario = usuario;
+        this.dataAtual = dataAtual;
+        this.saldoDiario = saldoDiario;
 
         setIconImage(
             new javax.swing.ImageIcon(
@@ -42,6 +47,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setTitle("Mavi - Sistema de Supermercado");
 
         mostrarSaldo();
+        iniciarData();
+        EstiloMavi.aplicar(getRootPane());
+        jPanelMenuLateral.setBackground(new java.awt.Color(255, 152, 0));
     }
 
     @SuppressWarnings("unchecked")
@@ -69,37 +77,53 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanelMenuLateral.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelMenuLateral.setBackground(new java.awt.Color(255, 152, 0));
 
+        jButtonComprar.setBackground(new java.awt.Color(69, 39, 160));
+        jButtonComprar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonComprar.setText("Comprar");
+        jButtonComprar.setFocusPainted(false);
         jButtonComprar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonComprarActionPerformed(evt);
             }
         });
 
+        jButtonVender.setBackground(new java.awt.Color(69, 39, 160));
+        jButtonVender.setForeground(new java.awt.Color(255, 255, 255));
         jButtonVender.setText("Vender");
+        jButtonVender.setFocusPainted(false);
+        jButtonVender.setOpaque(true);
         jButtonVender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonVenderActionPerformed(evt);
             }
         });
 
+        jButtonRelatorioDoDia.setBackground(new java.awt.Color(69, 39, 160));
+        jButtonRelatorioDoDia.setForeground(new java.awt.Color(255, 255, 255));
         jButtonRelatorioDoDia.setText("Relatório do dia");
+        jButtonRelatorioDoDia.setFocusPainted(false);
         jButtonRelatorioDoDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRelatorioDoDiaActionPerformed(evt);
             }
         });
 
+        jButtonSair.setBackground(new java.awt.Color(69, 39, 160));
+        jButtonSair.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSair.setText("Sair");
+        jButtonSair.setFocusPainted(false);
         jButtonSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairActionPerformed(evt);
             }
         });
 
+        jButtonEstoque.setBackground(new java.awt.Color(69, 39, 160));
+        jButtonEstoque.setForeground(new java.awt.Color(255, 255, 255));
         jButtonEstoque.setText("Estoque");
+        jButtonEstoque.setFocusPainted(false);
         jButtonEstoque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEstoqueActionPerformed(evt);
@@ -114,6 +138,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabelData.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelData.setText("xx/xx/xxxx");
 
+        jButtonFecharDia.setBackground(new java.awt.Color(69, 39, 160));
+        jButtonFecharDia.setForeground(new java.awt.Color(255, 255, 255));
         jButtonFecharDia.setText("Fechar dia");
         jButtonFecharDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,6 +218,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGap(0, 390, Short.MAX_VALUE)
         );
 
+        jMenuBarNavegacao.setBackground(new java.awt.Color(103, 58, 183));
+
+        jMenuAjuda.setForeground(new java.awt.Color(255, 255, 255));
         jMenuAjuda.setText("Ajuda");
         jMenuAjuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,6 +238,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenuBarNavegacao.add(jMenuAjuda);
 
+        jMenuLogin.setForeground(new java.awt.Color(255, 255, 255));
         jMenuLogin.setText("Login");
 
         jMenuItemLogarConta.setText("Logar conta");
@@ -259,14 +289,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         if (!verificarLogin()) {
             return;
         }
-        
-        mudarTela(new Comprar());
+
+        mudarTela(new Comprar(gerenciador, saldo, saldoDiario, this));
     }//GEN-LAST:event_jButtonComprarActionPerformed
 
     private void jButtonRelatorioDoDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRelatorioDoDiaActionPerformed
         if (!verificarLogin()) {
             return;
         }
+
+        JOptionPane.showMessageDialog(this, "Vendas: R$ " + saldoDiario.getVendaDiaria() + "\nCompras: R$ " + saldoDiario.getCompraDiaria() +
+        "\n\nSaldo diário final: R$ " + (saldoDiario.getVendaDiaria() - saldoDiario.getCompraDiaria()));
     }//GEN-LAST:event_jButtonRelatorioDoDiaActionPerformed
 
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
@@ -277,7 +310,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         if (!verificarLogin()) {
             return;
         }
-        
+
         mudarTela(new Estoque(gerenciador));
     }//GEN-LAST:event_jButtonEstoqueActionPerformed
 
@@ -285,15 +318,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         if (!verificarLogin()) {
             return;
         }
-        
+
+        if (dataAtual.passarDia()) {
+            jLabelData.setText(dataAtual.getDataAtual().toString());
+            saldoDiario.Resetar();
+        }
     }//GEN-LAST:event_jButtonFecharDiaActionPerformed
 
     private void jButtonVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVenderActionPerformed
         if (!verificarLogin()) {
             return;
         }
-        
-        mudarTela(new Vender(gerenciador, saldo, this));
+
+        mudarTela(new Vender(gerenciador, saldo, saldoDiario, this));
     }//GEN-LAST:event_jButtonVenderActionPerformed
 
     private void jMenuAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAjudaActionPerformed
@@ -301,7 +338,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuAjudaActionPerformed
 
     private void jMenuItemGuiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGuiaActionPerformed
-        javax.swing.JOptionPane.showMessageDialog(this, "Mavi - Sistema de Supermercado\nDesenvolvido em Java");
+        javax.swing.JOptionPane.showMessageDialog(this, "MaVi - Sistema de Supermercado\nDesenvolvido em Java");
         TelaAjuda ajuda = new TelaAjuda();
         ajuda.setLocationRelativeTo(this);
         ajuda.setVisible(true);
@@ -318,10 +355,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Nenhum usuário está logado!");
             return;
         }
-        
+
         sairLogin();
         mostrarLogoInicial();
-        JOptionPane.showMessageDialog(this, "Logout realizado com sucesso!");
+        JOptionPane.showMessageDialog(this, "Saída da conta realizada com sucesso!");
     }//GEN-LAST:event_jMenuItemSairDoUsuarioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -351,7 +388,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             "/imagens/Logo Mavi com Carrinho Roxo e Laranja.png");
 
         if (arquivoLogo == null) {
-            System.err.println("Logo do Mavi nao encontrada em src/imagens.");
+            System.err.println("Logo do MaVi não encontrada em src/imagens.");
             return;
         }
 
@@ -370,7 +407,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     return;
                 }
 
-                // Escala proporcional do tipo "cover": preenche toda a area.
+
                 double escala = Math.max((double) largura * 0.55 / larguraImagem,
                                          (double) altura * 0.65 / alturaImagem);
                 int larguraFinal = (int) Math.ceil(larguraImagem * escala);
@@ -406,22 +443,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public void mostrarSaldo() {
         jLabelSaldoAtual.setText(String.format("Saldo atual: R$ %.2f", saldo.getSaldo()));
     }
-    
+
     public void confirmarLogin(String nomeUsuario) {
         verificadorLogin = true;
         jLabelNomeDoPerfil.setText(nomeUsuario);
     }
-    
+
     private void sairLogin() {
         verificadorLogin = false;
         jLabelNomeDoPerfil.setText("Convidado");
     }
-    
+
     private boolean verificarLogin() {
         if (!verificadorLogin) {
             JOptionPane.showMessageDialog(this, "Faça login para acessar esta funcionalidade!");
             return false;
         }
         return true;
+    }
+
+    private void iniciarData() {
+        jLabelData.setText(dataAtual.getDataAtual().toString());
     }
 }

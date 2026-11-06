@@ -1,14 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
+
+
 package mavi.usuarios;
 
 public class GerenciarUsuarios {
-    
+
     Usuarios[] bancoUsuarios = new Usuarios[100];
-    
+
     public void IniciarBancoUsuarios() {
+        // Contas fictícias usadas exclusivamente para demonstração acadêmica.
         int i = 0;
         bancoUsuarios[i] = new Usuarios("vinicius", "heisenberg");
         i++;
@@ -20,9 +20,9 @@ public class GerenciarUsuarios {
         i++;
         bancoUsuarios[i] = new Usuarios("yasmin", "kpop");
     }
-    
+
     public Usuarios[] getBancoUsuarios() {
         return bancoUsuarios;
     }
-    
+
 }

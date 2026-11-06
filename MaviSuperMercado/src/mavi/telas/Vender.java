@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
+
+
 package mavi.telas;
 
 import mavi.produtos.GerenciarProdutos;
 import mavi.produtos.Produto;
 import mavi.financeiro.Saldo;
 import javax.swing.JOptionPane;
+import mavi.relatorios.SaldoDiario;
 
 public class Vender extends javax.swing.JPanel {
 
@@ -17,18 +17,19 @@ public class Vender extends javax.swing.JPanel {
     private Produto[] produtosCarrinho = new Produto[100];
     private float[] quantidadesCarrinho = new float[100];
     private int quantidadeItens = 0;
-    
-    
-    public Vender(GerenciarProdutos gerenciador, Saldo saldo, TelaPrincipal telaPrincipal) {
+    private SaldoDiario saldoDiario;
+
+    public Vender(GerenciarProdutos gerenciador, Saldo saldo, SaldoDiario saldoDiario, TelaPrincipal telaPrincipal) {
         initComponents();
         this.gerenciador = gerenciador;
         this.saldo = saldo;
         this.telaPrincipal = telaPrincipal;
+        this.saldoDiario = saldoDiario;
         configurarLayoutResponsivo();
         carregarProdutosComboBox();
+        EstiloMavi.aplicar(this);
     }
 
-    /** Organiza a tela em duas áreas com a mesma largura: formulário e carrinho. */
     private void configurarLayoutResponsivo() {
         removeAll();
         jPanelAreaVender.removeAll();
@@ -72,7 +73,7 @@ public class Vender extends javax.swing.JPanel {
         rodapeCarrinho.add(jLabelValorTotal);
         painelCarrinho.add(rodapeCarrinho, java.awt.BorderLayout.SOUTH);
 
-        // GridLayout distribui metade da largura disponível para cada área.
+
         jPanelAreaVender.add(painelFormulario);
         jPanelAreaVender.add(painelCarrinho);
         add(jPanelAreaVender, java.awt.BorderLayout.CENTER);
@@ -152,7 +153,7 @@ public class Vender extends javax.swing.JPanel {
         jTextFieldSetarCpf = new javax.swing.JTextField();
 
         jLabelTituloVender.setBackground(new java.awt.Color(102, 51, 255));
-        jLabelTituloVender.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
+        jLabelTituloVender.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12));
         jLabelTituloVender.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloVender.setText("VENDER");
 
@@ -200,11 +201,11 @@ public class Vender extends javax.swing.JPanel {
         jButtonRemoverItem.setText("Remover último item");
 
         jLabelTituloCarrinho.setBackground(new java.awt.Color(102, 51, 255));
-        jLabelTituloCarrinho.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
+        jLabelTituloCarrinho.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12));
         jLabelTituloCarrinho.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloCarrinho.setText("CARRINHO:");
 
-        jButtonFinalizarCompra.setText("Finalizar compra");
+        jButtonFinalizarCompra.setText("Finalizar venda");
         jButtonFinalizarCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonFinalizarCompraActionPerformed(evt);
@@ -322,33 +323,33 @@ public class Vender extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldSetarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSetarClienteActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextFieldSetarClienteActionPerformed
 
     private void jButtonAdicionarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarItemActionPerformed
 
         String nomeProduto = (String) jComboBoxSetarProduto.getSelectedItem();
         float quantidade;
-        
+
         try {
             quantidade = Float.parseFloat(jTextFieldSetarQuantidade.getText().replace(",", "."));
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Digite uma quantidade válida!");
             return;
         }
-        
+
         if (!Float.isFinite(quantidade) || quantidade <= 0) {
             JOptionPane.showMessageDialog(this, "A quantidade deve ser maior que zero!");
             return;
         }
-        
-        
+
+
         Produto[] produtos = gerenciador.getListaProdutos();
         int i = 0;
-        
+
         while(i < produtos.length && produtos[i] != null) {
             if(produtos[i].getNome().equals(nomeProduto)) {
-                
+
                 float quantidadeJaNoCarrinho = 0;
 
                 for (int j = 0; j < quantidadeItens; j++) {
@@ -356,7 +357,7 @@ public class Vender extends javax.swing.JPanel {
                         quantidadeJaNoCarrinho += quantidadesCarrinho[j];
                     }
                 }
-                
+
                 if (quantidadeItens < produtosCarrinho.length) {
                     if(quantidade + quantidadeJaNoCarrinho <= produtos[i].getQuantidadeNoEstoque()) {
                         produtosCarrinho[quantidadeItens] = produtos[i];
@@ -365,7 +366,7 @@ public class Vender extends javax.swing.JPanel {
                         atualizarCarrinho();
                         break;
                     } else {
-                        JOptionPane.showMessageDialog(this, "A quantidade selecionada eh maior do que a disponivel em estoque!");
+                        JOptionPane.showMessageDialog(this, "A quantidade selecionada é maior do que a disponível em estoque!");
                         break;
                     }
                 } else {
@@ -376,7 +377,7 @@ public class Vender extends javax.swing.JPanel {
                 i++;
             }
         }
-           
+
     }//GEN-LAST:event_jButtonAdicionarItemActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -388,12 +389,12 @@ public class Vender extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxSetarProdutoActionPerformed
 
     private void jButtonFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFinalizarCompraActionPerformed
-        
+
         if(quantidadeItens == 0) {
-            JOptionPane.showMessageDialog(this, "O carrinho estah vazio!");
+            JOptionPane.showMessageDialog(this, "O carrinho está vazio!");
             return;
         }
-        
+
         for (int i = 0; i < quantidadeItens; i++) {
 
             float quantidadeTotal = 0;
@@ -415,33 +416,35 @@ public class Vender extends javax.swing.JPanel {
                 return;
             }
         }
-        
+
         for(int i = 0; i < quantidadeItens; i++) {
             Produto produto = produtosCarrinho[i];
-            
+
             float quantidadeVendida = quantidadesCarrinho[i];
-            
+
             float estoqueAtual = produto.getQuantidadeNoEstoque();
             produto.setQuantidadeNoEstoque(estoqueAtual - quantidadeVendida);
-            
+
             double valorVenda = (quantidadeVendida * produto.getPreco());
             saldo.adicionarSaldo(valorVenda);
+            saldoDiario.setVendaDiaria(saldoDiario.getVendaDiaria() + valorVenda);
         }
-        
+
+
         String nome = jTextFieldSetarCliente.getText();
         String cpf = jTextFieldSetarCpf.getText();
-        JOptionPane.showMessageDialog(this, 
-            "Compra realizada com sucesso!\n\n" + 
-            "Comprador:" + nome + 
-            "\nCPF:" + cpf + 
-            "\n\nItens:\n" + 
+        JOptionPane.showMessageDialog(this,
+            "Venda realizada com sucesso!\n\n" +
+            "Comprador:" + nome +
+            "\nCPF:" + cpf +
+            "\n\nItens:\n" +
             jTextAreaCarrinho.getText() +
             "\n\n" +
             jLabelValorTotal.getText()
         );
-        
+
         telaPrincipal.mostrarSaldo();
-        
+
         atualizarPagina();
     }//GEN-LAST:event_jButtonFinalizarCompraActionPerformed
 
@@ -470,16 +473,16 @@ public class Vender extends javax.swing.JPanel {
 
     private void carregarProdutosComboBox() {
         jComboBoxSetarProduto.removeAllItems();
-        
+
         Produto[] produtos = gerenciador.getListaProdutos();
-        
+
         for (int i = 0; i<produtos.length; i++) {
             if(produtos[i] != null) {
                 jComboBoxSetarProduto.addItem(produtos[i].getNome());
             }
         }
     }
-    
+
     private void atualizarCarrinho() {
 
         jTextAreaCarrinho.setText("");
@@ -508,7 +511,7 @@ public class Vender extends javax.swing.JPanel {
             String.format("Valor total: R$ %.2f", valorTotal)
         );
     }
-    
+
     private void atualizarPagina() {
         jTextFieldSetarCliente.setText("");
         jTextFieldSetarCpf.setText("");

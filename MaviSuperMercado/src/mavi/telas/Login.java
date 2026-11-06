@@ -1,7 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
+
+
 package mavi.telas;
 
 import mavi.usuarios.GerenciarUsuarios;
@@ -10,13 +9,13 @@ import mavi.usuarios.Usuarios;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
-    
-    
+
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-    
+
     private GerenciarUsuarios usuarios;
     private TelaPrincipal telaPrincipal;
-    
+
     public Login(GerenciarUsuarios usuarios, TelaPrincipal telaPrincipal) {
         initComponents();
         setIconImage(
@@ -32,6 +31,7 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(telaPrincipal);
         this.usuarios = usuarios;
         this.telaPrincipal = telaPrincipal;
+        EstiloMavi.aplicar(getRootPane());
     }
 
     @SuppressWarnings("unchecked")
@@ -71,8 +71,9 @@ public class Login extends javax.swing.JFrame {
         jButtonEntrar.setText("Entrar");
         jButtonEntrar.addActionListener(this::jButtonEntrarActionPerformed);
 
-        jButtonEsqueciSenha.setFont(new java.awt.Font("Segoe UI", 0, 9)); // NOI18N
+        jButtonEsqueciSenha.setFont(new java.awt.Font("Segoe UI", 0, 9));
         jButtonEsqueciSenha.setText("Esqueci minha senha");
+        jButtonEsqueciSenha.setForeground(new java.awt.Color(69, 39, 160));
         jButtonEsqueciSenha.setBorder(null);
         jButtonEsqueciSenha.setBorderPainted(false);
         jButtonEsqueciSenha.setContentAreaFilled(false);
@@ -132,7 +133,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextFieldUsuarioActionPerformed
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
@@ -142,7 +143,7 @@ public class Login extends javax.swing.JFrame {
     private void jButtonEsqueciSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEsqueciSenhaActionPerformed
         String nome = JOptionPane.showInputDialog("Digite o nome do usuário:");
         String emailRecuperacao = JOptionPane.showInputDialog("Digite um e-mail de recuperação:");
-        JOptionPane.showMessageDialog(this, "Um e-mail de recuperação foi enviado para " + emailRecuperacao +", analisaremos seu caso e te daremos instruções.");
+        JOptionPane.showMessageDialog(this, "A recuperação de senha por e-mail ainda não está disponível nesta versão.");
     }//GEN-LAST:event_jButtonEsqueciSenhaActionPerformed
 
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
@@ -150,7 +151,7 @@ public class Login extends javax.swing.JFrame {
         int i = 0;
         String senhaDigitada = new String(jPasswordFieldSenha.getPassword());
         while(i < bancoUsuarios.length && bancoUsuarios[i] != null) {
-            if(jTextFieldUsuario.getText().equals(bancoUsuarios[i].getNomeUsuario()) && 
+            if(jTextFieldUsuario.getText().equals(bancoUsuarios[i].getNomeUsuario()) &&
             senhaDigitada.equals(bancoUsuarios[i].getSenhaUsuario())) {
                 telaPrincipal.confirmarLogin(bancoUsuarios[i].getNomeUsuario());
                 JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
@@ -160,7 +161,7 @@ public class Login extends javax.swing.JFrame {
                 i++;
             }
         }
-        JOptionPane.showMessageDialog(this, "Usuario ou senha não encontados!");
+        JOptionPane.showMessageDialog(this, "Usuário ou senha não encontrados!");
     }//GEN-LAST:event_jButtonEntrarActionPerformed
 
 
