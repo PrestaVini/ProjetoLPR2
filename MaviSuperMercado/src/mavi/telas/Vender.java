@@ -153,7 +153,7 @@ public class Vender extends javax.swing.JPanel {
         jTextFieldSetarCpf = new javax.swing.JTextField();
 
         jLabelTituloVender.setBackground(new java.awt.Color(102, 51, 255));
-        jLabelTituloVender.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12));
+        jLabelTituloVender.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
         jLabelTituloVender.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloVender.setText("VENDER");
 
@@ -199,9 +199,14 @@ public class Vender extends javax.swing.JPanel {
         jSeparatorSeparador.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jButtonRemoverItem.setText("Remover último item");
+        jButtonRemoverItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoverItemActionPerformed(evt);
+            }
+        });
 
         jLabelTituloCarrinho.setBackground(new java.awt.Color(102, 51, 255));
-        jLabelTituloCarrinho.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12));
+        jLabelTituloCarrinho.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
         jLabelTituloCarrinho.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloCarrinho.setText("CARRINHO:");
 
@@ -448,6 +453,10 @@ public class Vender extends javax.swing.JPanel {
         atualizarPagina();
     }//GEN-LAST:event_jButtonFinalizarCompraActionPerformed
 
+    private void jButtonRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverItemActionPerformed
+        removerItem();
+    }//GEN-LAST:event_jButtonRemoverItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionarItem;
@@ -526,4 +535,15 @@ public class Vender extends javax.swing.JPanel {
         atualizarCarrinho();
     }
 
+    private void removerItem() {
+        if(quantidadeItens > 0) {
+            quantidadeItens--;
+            produtosCarrinho[quantidadeItens] = null;
+            quantidadesCarrinho[quantidadeItens] = 0;
+            
+            atualizarCarrinho();
+        } else {
+            JOptionPane.showMessageDialog(this, "O carrinho está vazio!");
+        }
+    }
 }

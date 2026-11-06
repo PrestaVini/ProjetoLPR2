@@ -7,6 +7,7 @@ Simulador acadêmico de supermercado desenvolvido em **Java Swing** no **Apache 
 - Login e saída de usuário.
 - Venda de produtos, com validação da disponibilidade do estoque.
 - Compra e reposição de mercadorias, com conferência de saldo suficiente.
+- Remoção do último item adicionado aos carrinhos de compra e venda.
 - Consulta ao estoque e ao valor estimado dos produtos disponíveis.
 - Relatório do dia com soma das compras, soma das vendas e diferença entre elas.
 - Controle de data simulada e botão para fechar o dia.
@@ -39,7 +40,6 @@ O acabamento visual desta versão também foi auxiliado pelo ChatGPT, mantendo a
 
 - Os usuários e as senhas cadastrados diretamente no código são dados fictícios, criados somente para demonstração acadêmica, e não correspondem a credenciais reais.
 - O layout responsivo é configurado em código após o `initComponents()`, portanto algumas telas podem aparecer diferentes na visualização `Design` do NetBeans.
-- Os botões "Remover último item" ainda estão sem implementação funcional.
 - A consulta de estoque possui um campo de busca visual sem filtragem implementada.
 - Ao confirmar "Fechar dia", a data avança e os totais diários são zerados. Ao recusar ou cancelar, a data e os totais são mantidos.
-- As marcações `//GEN-...` do NetBeans foram mantidas no código-fonte para preservar a edição gráfica dos formulários. Os demais comentários Java foram removidos.
+- As marcações `//GEN-...` do NetBeans foram mantidas no código-fonte para preservar a edição gráfica dos formulários.

@@ -172,7 +172,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelValorDeCompra">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Valor unitário:"/>
+                <Property name="text" type="java.lang.String" value="Valor unit&#xe1;rio:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonAdicionarItem">
@@ -259,6 +259,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Remover &#xfa;ltimo item"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoverItemActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelTituloCarrinho">
               <Properties>

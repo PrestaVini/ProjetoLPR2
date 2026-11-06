@@ -169,7 +169,7 @@ public class Comprar extends javax.swing.JPanel {
         jLabelUnidadeDeMedida = new javax.swing.JLabel();
 
         jLabelTituloComprar.setBackground(new java.awt.Color(102, 51, 255));
-        jLabelTituloComprar.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12));
+        jLabelTituloComprar.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
         jLabelTituloComprar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloComprar.setText("COMPRAR");
 
@@ -213,9 +213,14 @@ public class Comprar extends javax.swing.JPanel {
 
         jButtonRemoverItem.setBackground(new java.awt.Color(255, 183, 77));
         jButtonRemoverItem.setText("Remover último item");
+        jButtonRemoverItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoverItemActionPerformed(evt);
+            }
+        });
 
         jLabelTituloCarrinho.setBackground(new java.awt.Color(102, 51, 255));
-        jLabelTituloCarrinho.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12));
+        jLabelTituloCarrinho.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
         jLabelTituloCarrinho.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloCarrinho.setText("CARRINHO:");
 
@@ -453,6 +458,10 @@ public class Comprar extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonAdicionarItemActionPerformed
 
+    private void jButtonRemoverItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverItemActionPerformed
+        removerItem();
+    }//GEN-LAST:event_jButtonRemoverItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionarItem;
@@ -533,17 +542,30 @@ public class Comprar extends javax.swing.JPanel {
 
     private void atualizarUnidadeMedida() {
 
-    String nomeProduto = (String) jComboBoxSetarProduto.getSelectedItem();
+        String nomeProduto = (String) jComboBoxSetarProduto.getSelectedItem();
 
-    Produto[] produtos = gerenciador.getListaProdutos();
+        Produto[] produtos = gerenciador.getListaProdutos();
 
-    jLabelUnidadeDeMedida.setText("");
+        jLabelUnidadeDeMedida.setText("");
 
-    for (int i = 0; i < produtos.length; i++) {
-        if (produtos[i] != null && produtos[i].getNome().equals(nomeProduto)) {
-            jLabelUnidadeDeMedida.setText(produtos[i].getUnidadeDeMedida());
-            break;
+        for (int i = 0; i < produtos.length; i++) {
+            if (produtos[i] != null && produtos[i].getNome().equals(nomeProduto)) {
+                jLabelUnidadeDeMedida.setText(produtos[i].getUnidadeDeMedida());
+                break;
+            }
         }
     }
-}
+    
+    private void removerItem() {
+        if(quantidadeItens > 0) {
+            quantidadeItens--;
+            produtosCarrinho[quantidadeItens] = null;
+            quantidadesCarrinho[quantidadeItens] = 0;
+            precosCarrinho[quantidadeItens] = 0;
+            
+            atualizarCarrinho();
+        } else {
+            JOptionPane.showMessageDialog(this, "O carrinho está vazio!");
+        }
+    }
 }

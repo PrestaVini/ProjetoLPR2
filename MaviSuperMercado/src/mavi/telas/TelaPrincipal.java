@@ -298,8 +298,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             return;
         }
 
-        JOptionPane.showMessageDialog(this, "Vendas: R$ " + saldoDiario.getVendaDiaria() + "\nCompras: R$ " + saldoDiario.getCompraDiaria() +
-        "\n\nSaldo diário final: R$ " + (saldoDiario.getVendaDiaria() - saldoDiario.getCompraDiaria()));
+        JOptionPane.showMessageDialog(this,
+        "Vendas: R$ " + String.format("%.2f", saldoDiario.getVendaDiaria()) +
+        "\nCompras: R$ " + String.format("%.2f", saldoDiario.getCompraDiaria()) +
+        "\n\nSaldo diário final: R$ " + String.format("%.2f",
+        saldoDiario.getVendaDiaria() - saldoDiario.getCompraDiaria())
+);
     }//GEN-LAST:event_jButtonRelatorioDoDiaActionPerformed
 
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
